@@ -1,0 +1,46 @@
+name: update
+
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: Update releases.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp releases.json "$RUNNER_TEMP/releases.old.json"
+          nix run .#artcraft-update -- --all --write
+      - name: Check, commit and push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git diff --quiet releases.json && exit 0
+          nix flake check -L
+          changes="$(jq -r --slurpfile old "$RUNNER_TEMP/releases.old.json" '
+            to_entries
+            | map(select(.value.version != $old[0][.key].version)
+                  | "\(.key): \($old[0][.key].version) -> \(.value.version)")
+            | .[]' releases.json)"
+          title="$(printf '%s\n' "$changes" | cut -d: -f1 | paste -sd, - | sed 's/,/, /g'): update"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "$title" -m "$changes"
+          git push
+          # Pushes made with GITHUB_TOKEN do not trigger workflows; run the
+          # full platform matrix explicitly.
+          gh workflow run check.yml --ref main
