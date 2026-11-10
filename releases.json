@@ -42,18 +42,18 @@
     "version": "0.19.0"
   },
   "effectcraft": {
-    "release": "https://github.com/storytold/effectcraft/releases/tag/v0.23.0",
+    "release": "https://github.com/storytold/effectcraft/releases/tag/v0.23.1",
     "sources": {
       "aarch64-linux": {
-        "sha256": "b266f4713c8f860dd2bc847930413c0a2fa07f82c3f3752a40ca6d0cf00467b1",
-        "url": "https://github.com/storytold/effectcraft/releases/download/v0.23.0/effectcraft-0.23.0-linux-aarch64.tar.gz"
+        "sha256": "fff8ed752b90d63c1e491f6cc6d2700fc7122fc15e1fab674000065052bef3fe",
+        "url": "https://github.com/storytold/effectcraft/releases/download/v0.23.1/effectcraft-0.23.1-linux-aarch64.tar.gz"
       },
       "x86_64-linux": {
-        "sha256": "13d9ab23b75be7b8a71775cc9402e0f832280b166147467282557e9c6a21d3d2",
-        "url": "https://github.com/storytold/effectcraft/releases/download/v0.23.0/effectcraft-0.23.0-linux-x86_64.tar.gz"
+        "sha256": "a330d1406fde71d07ac55ad37fe81f5de37ec7ea7ca7c3b9fa02aacd04502db1",
+        "url": "https://github.com/storytold/effectcraft/releases/download/v0.23.1/effectcraft-0.23.1-linux-x86_64.tar.gz"
       }
     },
-    "version": "0.23.0"
+    "version": "0.23.1"
   },
   "figcraft": {
     "release": "https://github.com/storytold/figcraft/releases/tag/v0.17.0",
